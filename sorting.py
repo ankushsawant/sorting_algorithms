@@ -34,7 +34,12 @@ def bubble_sort(u_list=None):
     finish_time = time.perf_counter()
     exec_time = finish_time - start_time
 
-    return f'bubble_sort: completed in {exec_time:.5f}s'
+    # return f'bubble_sort: completed in {exec_time:.5f}s'
+    return {
+        'name': 'bubble_sort',
+        'u_list': u_list,
+        'exec_time': f'{exec_time:.5f}'
+    }
 
 
 def insertion_sort(u_list=None):
@@ -56,7 +61,7 @@ def main():
     main entry point for sorting algorithms module
     :return:
     """
-    sorting_algorithms = ['bubble_sort', 'insertion_sort']  # list of sorting algorithms
+    sorting_algorithms = ['bubble_sort']  # list of sorting algorithms
 
     unsorted_list = [random.randint(1, 100) for _ in range(10)]
     logging.debug(unsorted_list)
@@ -65,7 +70,7 @@ def main():
         results = [executor.submit(eval(algorithm), unsorted_list) for algorithm in sorting_algorithms]
 
         for f in concurrent.futures.as_completed(results):
-            logging.info(f.result())
+            logging.info('{0} algorithm completed in {1}s.'.format(f.result()['name'], f.result()['exec_time']))
 
 
 if __name__ == '__main__':
