@@ -13,12 +13,13 @@ def bubble_sort(u_list=None):
     :param u_list: unsorted list of numbers
     :return:
     """
-    logging.info('Inside bubble_sort')
+    logging.debug('Inside bubble_sort')
     start_time = time.perf_counter()
 
     if u_list is None:
         u_list = [random.randint(1, 100) for _ in range(10)]
     logging.debug(u_list)
+
     n = len(u_list)
     for i in range(n, 0, -1):
         fully_sorted = True
@@ -47,13 +48,40 @@ def insertion_sort(u_list=None):
     insertion sort algorithm
     :return:
     """
-    logging.info('Inside insertion_sort')
+    logging.debug('Inside insertion_sort')
     start_time = time.perf_counter()
+
+    if u_list is None:
+        u_list = [random.randint(1, 100) for _ in range(10)]
+    logging.debug(u_list)
+
+    n = len(u_list)
+    for i in range(1, n):
+        key_value = u_list[i]  # save key value to be inserted
+        moved = False
+        pos = -1
+        for j in range(i - 1, -1, -1):
+            if key_value < u_list[j]:
+                u_list[j + 1] = u_list[j]
+                moved = True
+                pos = j
+            else:
+                break
+        if moved:
+            u_list[pos] = key_value
+
+    logging.debug(u_list)
+    finish = time.perf_counter()
 
     finish_time = time.perf_counter()
     exec_time = finish_time - start_time
 
-    return f'insertion_sort: completed in {exec_time:.5f}s'
+    # return f'insertion_sort: completed in {exec_time:.5f}s'
+    return {
+        'name': 'insertion_sort',
+        'u_list': u_list,
+        'exec_time': f'{exec_time:.5f}'
+    }
 
 
 def main():
@@ -61,7 +89,7 @@ def main():
     main entry point for sorting algorithms module
     :return:
     """
-    sorting_algorithms = ['bubble_sort']  # list of sorting algorithms
+    sorting_algorithms = ['bubble_sort', 'insertion_sort']  # list of sorting algorithms
 
     unsorted_list = [random.randint(1, 100) for _ in range(10)]
     logging.debug(unsorted_list)
