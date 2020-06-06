@@ -46,6 +46,7 @@ def bubble_sort(u_list=None):
 def insertion_sort(u_list=None):
     """
     insertion sort algorithm
+    :param u_list: unsorted list of numbers
     :return:
     """
     logging.debug('Inside insertion_sort')
@@ -76,9 +77,91 @@ def insertion_sort(u_list=None):
     finish_time = time.perf_counter()
     exec_time = finish_time - start_time
 
-    # return f'insertion_sort: completed in {exec_time:.5f}s'
     return {
         'name': 'insertion_sort',
+        'u_list': u_list,
+        'exec_time': f'{exec_time:.5f}'
+    }
+
+
+def merge(left, right):
+    """
+    merge left and right lists into a sorted list
+    :param left: left sorted list
+    :param right: right sorted list
+    :return: sorted merged list
+    """
+    #  if left is empty, return right
+    if len(left) == 0:
+        return right
+
+    # if right is empty, return left
+    if len(right) == 0:
+        return left
+
+    left_index = right_index = 0
+    result = []
+
+    while len(result) < len(left) + len(right):
+        if left[left_index] <= right[right_index]:
+            result.append(left[left_index])
+            left_index += 1
+        else:
+            result.append(right[right_index])
+            right_index += 1
+
+        if left_index == len(left):
+            result += right[right_index:]
+            break
+
+        if right_index == len(right):
+            result += left[left_index:]
+            break
+
+    return result
+
+
+def m_sort(u_list=None):
+    """
+    recursive merge sort algorithm
+    :param u_list: unsorted list of numbers
+    :return:
+    """
+    if len(u_list) < 2:
+        return u_list
+
+    mid = len(u_list) // 2
+
+    return merge(
+        m_sort(u_list[:mid]),
+        m_sort(u_list[mid:])
+    )
+
+
+def merge_sort(u_list=None):
+    """
+    merge sort algorithm (wrapper for m_sort)
+    :param u_list:
+    :return:
+    """
+    logging.debug('Inside merge_sort')
+    start_time = time.perf_counter()
+
+    if u_list is None:
+        u_list = [random.randint(1, 100) for _ in range(10)]
+    logging.debug(u_list)
+
+    u_list = m_sort(u_list)
+
+    logging.debug(u_list)
+    finish = time.perf_counter()
+
+    finish_time = time.perf_counter()
+    exec_time = finish_time - start_time
+
+    # return f'merge_sort: completed in {exec_time:.5f}s'
+    return {
+        'name': 'merge_sort',
         'u_list': u_list,
         'exec_time': f'{exec_time:.5f}'
     }
@@ -89,9 +172,9 @@ def main():
     main entry point for sorting algorithms module
     :return:
     """
-    sorting_algorithms = ['bubble_sort', 'insertion_sort']  # list of sorting algorithms
+    sorting_algorithms = ['bubble_sort', 'insertion_sort', 'merge_sort']  # list of sorting algorithms
 
-    unsorted_list = [random.randint(1, 100) for _ in range(10)]
+    unsorted_list = [random.randint(1, 100) for _ in range(1000)]
     logging.debug(unsorted_list)
 
     with concurrent.futures.ProcessPoolExecutor() as executor:
