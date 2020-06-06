@@ -1,5 +1,5 @@
 import unittest
-from sorting_algorithms.sorting import bubble_sort, insertion_sort, merge, m_sort
+from sorting_algorithms.sorting import bubble_sort, insertion_sort, merge, m_sort, q_sort
 
 
 class MyTestCase(unittest.TestCase):
@@ -22,6 +22,11 @@ class MyTestCase(unittest.TestCase):
         u_list = [8, 2, 6, 4, 5]
         s_list = [2, 4, 5, 6, 8]
         self.assertEqual(m_sort(u_list), s_list)
+
+    def test_q_sort(self):
+        u_list = [8, 2, 6, 4, 5]
+        s_list = [2, 4, 5, 6, 8]
+        self.assertEqual(q_sort(u_list), s_list)
 
 
 if __name__ == '__main__':

@@ -141,7 +141,7 @@ def m_sort(u_list=None):
 def merge_sort(u_list=None):
     """
     merge sort algorithm (wrapper for m_sort)
-    :param u_list:
+    :param u_list: unsorted list of numbers
     :return:
     """
     logging.debug('Inside merge_sort')
@@ -167,12 +167,64 @@ def merge_sort(u_list=None):
     }
 
 
+def q_sort(u_list=None):
+    """
+    recursive quick sort algorithm
+    :param u_list: unsorted list of numbers
+    :return:
+    """
+
+    if len(u_list) < 2:
+        return u_list
+
+    low, mid, high = [], [], []
+
+    pivot = u_list[random.randint(0, len(u_list) - 1)]
+
+    for num in u_list:
+        if num < pivot:
+            low.append(num)
+        elif num == pivot:
+            mid.append(num)
+        else:
+            high.append(num)
+
+    return q_sort(low) + mid + q_sort(high)
+
+
+def quick_sort(u_list=None):
+    """
+    quick sort algorithm (wrapper for q_sort)
+    :param u_list: unsorted list of numbers
+    :return:
+    """
+    logging.debug('Inside quick_sort')
+    start_time = time.perf_counter()
+
+    if u_list is None:
+        u_list = [random.randint(1, 100) for _ in range(10)]
+    logging.debug(u_list)
+
+    u_list = q_sort(u_list)
+
+    logging.debug(u_list)
+    finish_time = time.perf_counter()
+    exec_time = finish_time - start_time
+
+    # return f'quick_sort: completed in {exec_time:.5f}s'
+    return {
+        'name': 'quick_sort',
+        'u_list': u_list,
+        'exec_time': f'{exec_time:.5f}'
+    }
+
+
 def main():
     """
     main entry point for sorting algorithms module
     :return:
     """
-    sorting_algorithms = ['bubble_sort', 'insertion_sort', 'merge_sort']  # list of sorting algorithms
+    sorting_algorithms = ['bubble_sort', 'insertion_sort', 'merge_sort', 'quick_sort']  # list of sorting algorithms
 
     unsorted_list = [random.randint(1, 100) for _ in range(1000)]
     logging.debug(unsorted_list)
