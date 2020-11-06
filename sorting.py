@@ -84,6 +84,41 @@ def insertion_sort(u_list=None):
     }
 
 
+def selection_sort(u_list=None):
+    """
+    selection sort algorithm
+    :param u_list: unsorted list of numbers
+    :return:
+    """
+    logging.debug('Inside selection_sort')
+    start_time = time.perf_counter()
+
+    if u_list is None:
+        u_list = [random.randint(1, 100) for _ in range(10)]
+    logging.debug(u_list)
+
+    n = len(u_list)
+
+    for i in range(n):
+        min_index = i
+        for j in range(i + 1, n):
+            if u_list[j] < u_list[min_index]:
+                min_index = j
+        u_list[i], u_list[min_index] = u_list[min_index], u_list[i]
+
+    logging.debug(u_list)
+    finish = time.perf_counter()
+
+    finish_time = time.perf_counter()
+    exec_time = finish_time - start_time
+
+    return {
+        'name': 'selection_sort',
+        'u_list': u_list,
+        'exec_time': f'{exec_time:.5f}'
+    }
+
+
 def merge(left, right):
     """
     merge left and right lists into a sorted list
@@ -224,7 +259,7 @@ def main():
     main entry point for sorting algorithms module
     :return:
     """
-    sorting_algorithms = ['bubble_sort', 'insertion_sort', 'merge_sort', 'quick_sort']  # list of sorting algorithms
+    sorting_algorithms = ['bubble_sort', 'insertion_sort', 'selection_sort', 'merge_sort', 'quick_sort']  # list of sorting algorithms
 
     unsorted_list = [random.randint(1, 100) for _ in range(1000)]
     logging.debug(unsorted_list)
