@@ -261,8 +261,9 @@ def main():
     """
     sorting_algorithms = ['bubble_sort', 'insertion_sort', 'selection_sort', 'merge_sort', 'quick_sort']  # list of sorting algorithms
 
-    unsorted_list = [random.randint(1, 100) for _ in range(1000)]
+    unsorted_list = [random.randint(1, 100) for _ in range(10000)]
     logging.debug(unsorted_list)
+    logging.info(f'Length of unsorted_list: {len(unsorted_list)}')
 
     with concurrent.futures.ProcessPoolExecutor() as executor:
         results = [executor.submit(eval(algorithm), unsorted_list) for algorithm in sorting_algorithms]
