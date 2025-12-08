@@ -34,8 +34,15 @@ This project demonstrates the implementation and real-world performance characte
 
 ## Requirements
 
-- Python 3.6+
+- Python 3.10+ (tested up to Python 3.14)
 - Standard library modules: `random`, `concurrent.futures`, `logging`, `time`
+
+### Python 3.14 Compatibility
+
+This project is fully compatible with Python 3.14 and includes:
+- Modern type hints using PEP 604 union syntax (`|` operator)
+- Secure function mapping (no `eval()` usage)
+- Standard library features compatible with latest Python versions
 
 ## Installation
 
@@ -67,7 +74,7 @@ The program will:
 Execute the test suite:
 
 ```bash
-python -m pytest test_sorting.py
+python -m unittest test_sorting.py -v
 ```
 
 ## Output
