@@ -7,11 +7,11 @@ logging.basicConfig(filename='sorting.log',
                     level=logging.INFO)
 
 
-def bubble_sort(u_list=None):
+def bubble_sort(u_list: list[int] | None = None) -> dict[str, str | list[int]]:
     """
     bubble sort algorithm
     :param u_list: unsorted list of numbers
-    :return:
+    :return: dictionary with algorithm name, sorted list, and execution time
     """
     logging.debug('Inside bubble_sort')
     start_time = time.perf_counter()
@@ -43,11 +43,11 @@ def bubble_sort(u_list=None):
     }
 
 
-def insertion_sort(u_list=None):
+def insertion_sort(u_list: list[int] | None = None) -> dict[str, str | list[int]]:
     """
     insertion sort algorithm
     :param u_list: unsorted list of numbers
-    :return:
+    :return: dictionary with algorithm name, sorted list, and execution time
     """
     logging.debug('Inside insertion_sort')
     start_time = time.perf_counter()
@@ -84,11 +84,11 @@ def insertion_sort(u_list=None):
     }
 
 
-def selection_sort(u_list=None):
+def selection_sort(u_list: list[int] | None = None) -> dict[str, str | list[int]]:
     """
     selection sort algorithm
     :param u_list: unsorted list of numbers
-    :return:
+    :return: dictionary with algorithm name, sorted list, and execution time
     """
     logging.debug('Inside selection_sort')
     start_time = time.perf_counter()
@@ -119,7 +119,7 @@ def selection_sort(u_list=None):
     }
 
 
-def merge(left, right):
+def merge(left: list[int], right: list[int]) -> list[int]:
     """
     merge left and right lists into a sorted list
     :param left: left sorted list
@@ -156,11 +156,11 @@ def merge(left, right):
     return result
 
 
-def m_sort(u_list=None):
+def m_sort(u_list: list[int] | None = None) -> list[int]:
     """
     recursive merge sort algorithm
     :param u_list: unsorted list of numbers
-    :return:
+    :return: sorted list
     """
     if len(u_list) < 2:
         return u_list
@@ -173,11 +173,11 @@ def m_sort(u_list=None):
     )
 
 
-def merge_sort(u_list=None):
+def merge_sort(u_list: list[int] | None = None) -> dict[str, str | list[int]]:
     """
     merge sort algorithm (wrapper for m_sort)
     :param u_list: unsorted list of numbers
-    :return:
+    :return: dictionary with algorithm name, sorted list, and execution time
     """
     logging.debug('Inside merge_sort')
     start_time = time.perf_counter()
@@ -202,11 +202,11 @@ def merge_sort(u_list=None):
     }
 
 
-def q_sort(u_list=None):
+def q_sort(u_list: list[int] | None = None) -> list[int]:
     """
     recursive quick sort algorithm
     :param u_list: unsorted list of numbers
-    :return:
+    :return: sorted list
     """
 
     if len(u_list) < 2:
@@ -227,11 +227,11 @@ def q_sort(u_list=None):
     return q_sort(low) + mid + q_sort(high)
 
 
-def quick_sort(u_list=None):
+def quick_sort(u_list: list[int] | None = None) -> dict[str, str | list[int]]:
     """
     quick sort algorithm (wrapper for q_sort)
     :param u_list: unsorted list of numbers
-    :return:
+    :return: dictionary with algorithm name, sorted list, and execution time
     """
     logging.debug('Inside quick_sort')
     start_time = time.perf_counter()
@@ -254,19 +254,26 @@ def quick_sort(u_list=None):
     }
 
 
-def main():
+def main() -> None:
     """
     main entry point for sorting algorithms module
-    :return:
+    :return: None
     """
-    sorting_algorithms = ['bubble_sort', 'insertion_sort', 'selection_sort', 'merge_sort', 'quick_sort']  # list of sorting algorithms
+    # Dictionary mapping algorithm names to functions (replaces eval() for security)
+    sorting_algorithms = {
+        'bubble_sort': bubble_sort,
+        'insertion_sort': insertion_sort,
+        'selection_sort': selection_sort,
+        'merge_sort': merge_sort,
+        'quick_sort': quick_sort
+    }
 
     unsorted_list = [random.randint(1, 100) for _ in range(10000)]
     logging.debug(unsorted_list)
     logging.info(f'Length of unsorted_list: {len(unsorted_list)}')
 
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        results = [executor.submit(eval(algorithm), unsorted_list) for algorithm in sorting_algorithms]
+        results = [executor.submit(func, unsorted_list) for func in sorting_algorithms.values()]
 
         for f in concurrent.futures.as_completed(results):
             logging.info('{0} algorithm completed in {1}s.'.format(f.result()['name'], f.result()['exec_time']))
